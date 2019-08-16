@@ -1,5 +1,5 @@
 # version 8 of node
-FROM node:8
+FROM node:8-alpine
 
 # create a directory for client
 RUN mkdir -p /usr/src/app
