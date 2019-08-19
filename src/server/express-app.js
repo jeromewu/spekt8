@@ -9,6 +9,8 @@ const k8s = require('@kubernetes/client-node');
 const kc = new k8s.KubeConfig();
 kc.loadFromDefault();
 
+const namespace = process.env.SPEKT8_NAMESPACE || 'default';
+
 /* Core_v1Api docs: https://github.com/kubernetes-client/java/blob/master/kubernetes/docs/CoreV1Api.md */
 // core_v1api -- pods, services (may include nodeport, loadbalancer)
 // optional: serviceaccount, resourcequota, replication controller if needed
@@ -42,7 +44,7 @@ app.get('/main.js', (req, res) => {
 });
 
 app.get('/pod', (req, res) => {
-  k8sApi.listNamespacedPod('default')
+  k8sApi.listNamespacedPod(namespace)
     .then((re) => {
       return res.status(200).json(re.body);
     })
@@ -52,7 +54,7 @@ app.get('/pod', (req, res) => {
 });
 
 app.get('/service', (req, res) => {
-  k8sApi.listNamespacedService('default')
+  k8sApi.listNamespacedService(namespace)
     .then((re) => {
       return res.status(200).json(re.body);
     })
@@ -62,7 +64,7 @@ app.get('/service', (req, res) => {
 });
 
 app.get('/ingress', (req, res) => {
-  k8sApi2.listNamespacedIngress('default')
+  k8sApi2.listNamespacedIngress(namespace)
     .then((re) => {
       return res.status(200).json(re.body);
     })
@@ -72,7 +74,7 @@ app.get('/ingress', (req, res) => {
 });
 
 app.get('/deployment', (req, res) => {
-  k8sApi2.listNamespacedDeployment('default')
+  k8sApi2.listNamespacedDeployment(namespace)
     .then((re) => {
       return res.status(200).json(re.body);
     })
@@ -82,7 +84,7 @@ app.get('/deployment', (req, res) => {
 });
 
 app.get('/daemonset', (req, res) => {
-  k8sApi2.listNamespacedDaemonSet('default')
+  k8sApi2.listNamespacedDaemonSet(namespace)
     .then((re) => {
       res.json(re.body);
     });
